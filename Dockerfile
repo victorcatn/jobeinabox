@@ -69,8 +69,9 @@ RUN ln -snf /usr/share/zoneinfo/"$TZ" /etc/localtime && \
     chown -R www-data:www-data /var/www/html && \
     sed 's+python3+/opt/conda/bin/python+g' /var/www/html/jobe/application/libraries/python3_task.php
 
-RUN wget --quiet http://mirrors.kernel.org/ubuntu/pool/universe/c/clips/clips_6.24-3ubuntu1_amd64.deb -O ~/clips.deb && \
-apt-get install ~/clips.deb
+#clips
+RUN echo 'deb http://cz.archive.ubuntu.com/ubuntu xenial main universe' >> /etc/apt/sources.list && \
+apt-get update && apt-get --no-install-recommends install -yq clips
 
 # Anaconda
 RUN wget --quiet https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux-x86_64.sh -O ~/anaconda.sh && \
