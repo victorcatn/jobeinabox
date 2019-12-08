@@ -5,7 +5,7 @@
 FROM ubuntu:18.04
 
 LABEL maintainers="richard.lobb@canterbury.ac.nz,j.hoedjes@hva.nl"
-ARG TZ=Pacific/Auckland
+ARG TZ=America/Bogota
 ARG ROOTPASS=jobeisfab
 # Set up the (apache) environment variables
 ENV APACHE_RUN_USER www-data
@@ -48,6 +48,7 @@ RUN ln -snf /usr/share/zoneinfo/"$TZ" /etc/localtime && \
       git \
       acl \
       unzip \
+      clips \
       sudo && \
     pylint3 --reports=no --score=n --generate-rcfile > /etc/pylintrc && \
     ln -sf /proc/self/fd/1 /var/log/apache2/access.log && \
@@ -66,7 +67,17 @@ RUN ln -snf /usr/share/zoneinfo/"$TZ" /etc/localtime && \
     apache2ctl start && \
     cd /var/www/html/jobe && ./install && \
     chown -R www-data:www-data /var/www/html && \
-    apt-get -y autoremove && \
+    sed 's+python3+/opt/conda/bin/python+g' /var/www/html/jobe/application/libraries/python3_task.php
+    
+# Anaconda
+RUN wget --quiet https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux-x86_64.sh -O ~/anaconda.sh && \
+    /bin/bash ~/anaconda.sh -b -p /opt/conda && \
+    rm ~/anaconda.sh && \
+    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
+    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
+    echo "conda activate base" >> ~/.bashrc
+    
+RUN apt-get -y autoremove && \
     apt-get -y autoclean && \
     apt-get -y clean
 
