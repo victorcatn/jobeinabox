@@ -48,6 +48,7 @@ RUN ln -snf /usr/share/zoneinfo/"$TZ" /etc/localtime && \
       git \
       acl \
       unzip \
+      wget \
       sudo && \
     pylint3 --reports=no --score=n --generate-rcfile > /etc/pylintrc && \
     ln -sf /proc/self/fd/1 /var/log/apache2/access.log && \
