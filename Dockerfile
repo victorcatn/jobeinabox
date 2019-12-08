@@ -48,7 +48,6 @@ RUN ln -snf /usr/share/zoneinfo/"$TZ" /etc/localtime && \
       git \
       acl \
       unzip \
-      clips \
       sudo && \
     pylint3 --reports=no --score=n --generate-rcfile > /etc/pylintrc && \
     ln -sf /proc/self/fd/1 /var/log/apache2/access.log && \
@@ -68,7 +67,10 @@ RUN ln -snf /usr/share/zoneinfo/"$TZ" /etc/localtime && \
     cd /var/www/html/jobe && ./install && \
     chown -R www-data:www-data /var/www/html && \
     sed 's+python3+/opt/conda/bin/python+g' /var/www/html/jobe/application/libraries/python3_task.php
-    
+
+RUN wget --quiet http://mirrors.kernel.org/ubuntu/pool/universe/c/clips/clips_6.24-3ubuntu1_amd64.deb -O ~/clips.deb && \
+apt-get install ~/clips.deb
+
 # Anaconda
 RUN wget --quiet https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux-x86_64.sh -O ~/anaconda.sh && \
     /bin/bash ~/anaconda.sh -b -p /opt/conda && \
