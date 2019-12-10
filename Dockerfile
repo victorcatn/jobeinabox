@@ -67,7 +67,8 @@ RUN ln -snf /usr/share/zoneinfo/"$TZ" /etc/localtime && \
     apache2ctl start && \
     cd /var/www/html/jobe && ./install && \
     chown -R www-data:www-data /var/www/html && \
-    sed 's+python3+/opt/conda/bin/python+g' /var/www/html/jobe/application/libraries/python3_task.php
+    sed -i 's+/usr/bin/++g' /var/www/html/jobe/application/libraries/python3_task.php && \
+    sed -i 's+python3+/opt/conda/bin/python+g' /var/www/html/jobe/application/libraries/python3_task.php
 
 #clips
 RUN echo 'deb http://cz.archive.ubuntu.com/ubuntu xenial main universe' >> /etc/apt/sources.list && \
