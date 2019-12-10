@@ -81,11 +81,12 @@ RUN wget --quiet https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux-x86_6
     ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
     echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
     echo "conda activate base" >> ~/.bashrc
-
+    
+SHELL ["/bin/bash", "-c"] 
 RUN conda install pip && \
     pip install --upgrade setuptools && \
     pip install cvxpy
-    
+SHELL ["/bin/sh", "-c"]
     
 RUN apt-get -y autoremove && \
     apt-get -y autoclean && \
