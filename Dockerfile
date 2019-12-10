@@ -83,7 +83,7 @@ RUN wget --quiet https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux-x86_6
     echo "conda activate base" >> ~/.bashrc
     
 SHELL ["/bin/bash", "-c"] 
-RUN source /opt/anaconda/etc/profile.d/conda.sh && \
+RUN source /opt/conda/etc/profile.d/conda.sh && \
     conda activate base && \
     conda install pip && \
     pip install --upgrade setuptools && \
